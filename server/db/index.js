@@ -19,27 +19,35 @@ connection.connect(function(err) {
 });
 
 
-var testmsg = {
-  username: 'testUser',
-  text: 'some string sent from clientside'
+// var testmsg = {
+//   username: 'testUser3',
+//   text: 'sending this from model!!'
+// };
+
+exports.read = function () {
+              return 'SELECT users.username, messages.text' +
+              ' FROM users, messages' +
+              ' WHERE users.id = messages.id_users;';
+            };
+exports.doesUserExist = function(msgObj) {
+                        return "SELECT username FROM users WHERE username = '" + msgObj.username + "';";
+                        };
+
+exports.addUser = function(msgObj) {
+                  return "INSERT INTO users(username) VALUES ('" + msgObj.username + "');";
+                  }
+exports.write = function(msgObj) {
+                return "INSERT INTO messages (id_users, text) SELECT id, '" +
+                msgObj.text + "' FROM users where username = '" +
+                msgObj.username + "';";
+                }
+
+var query = exports.query = function (sqlString, callback) {
+  connection.query(sqlString, function (error, results, fields) {
+    if (error) {
+      console.log(error);
+    }
+    callback(results);
+  });
 };
 
-
-// get all messages from db
-var sqlRead = 'SELECT users.username, messages.text' +
-              'FROM users, messages' +
-              'WHERE users.id = messages.id_users;';
-
-var doesUserExist = "SELECT username FROM users WHERE username = '" + testmsg.username + "';";
-var sqlAddUser = "INSERT INTO users(username) VALUES ('" + testmsg.username + "');";
-// take testmsg and insert into database (only if username exists)
-var sqlWrite = "INSERT INTO messages (id_users, text) SELECT id, '" + testmsg.text + "' FROM users where username = '" + testmsg.username + "';";
-
-
-connection.query(sqlWrite, function (error, results, fields) {
-  if (error) {
-    console.log(error);
-  }
-  // TODO: send appropriate response to client;
-  console.log('Results from query: ', results);
-});
