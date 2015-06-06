@@ -49,7 +49,9 @@ describe("Persistent Node Chat Server", function() {
         // your message table, since this is schema-dependent.
         var queryString = "SELECT * FROM messages";
         var queryArgs = [];
-
+        // add a message with username = json.username, text = json.message to our tables?
+        // insert username, text
+        // values json.username, json.message
         dbConnection.query(queryString, queryArgs, function(err, results) {
           // Should have one result:
           expect(results.length).to.equal(1);
