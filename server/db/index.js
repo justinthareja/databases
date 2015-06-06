@@ -18,12 +18,6 @@ connection.connect(function(err) {
   console.log("Successfully opened connection to MYSQL database");
 });
 
-
-// var testmsg = {
-//   username: 'testUser3',
-//   text: 'sending this from model!!'
-// };
-
 exports.read = function () {
               return 'SELECT users.username, messages.text' +
               ' FROM users, messages' +
