@@ -9,8 +9,9 @@ var headers = {
 };
 
 exports.sendResponse = function(res, statusCode, data) {
+  var messageObj = { results: data };
   res.writeHead(statusCode, headers);
-  res.end( JSON.stringify(data) );
+  res.end( JSON.stringify(messageObj) );
 };
 
 

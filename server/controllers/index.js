@@ -5,6 +5,10 @@ var http = require('./http-helpers.js');
 
 module.exports = {
   messages: {
+    options: function (req, res) {
+      http.sendResponse(res, 200, null);
+    },
+
     get: function (req, res) {
       models.messages.get(function (allMessages) {
         http.sendResponse(res, 200, allMessages);
@@ -13,7 +17,6 @@ module.exports = {
 
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-      // var newMessage = JSON.parse(req.body);
       models.messages.post(req.body, function () {
         http.sendResponse(res, 201, 'message posted!');
       });
@@ -22,6 +25,7 @@ module.exports = {
 
   users: {
     // Ditto as above
+    options: function(req, res) {},
     get: function (req, res) {},
     post: function (req, res) {}
   },
